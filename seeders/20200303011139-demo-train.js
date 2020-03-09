@@ -1,0 +1,56 @@
+"use strict";
+
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    /*
+      Add altering commands here.
+      Return a promise to correctly handle asynchronicity.
+
+      Example:
+      return queryInterface.bulkInsert('People', [{
+        name: 'John Doe',
+        isBetaMember: false
+      }], {});
+    */
+
+    return queryInterface.bulkInsert(
+      "trains",
+      [
+        {
+          name: "kosambiexpress",
+          typeTrainId: 2,
+          dateStart: "10/03/2020",
+          station: "Juramangu",
+          startTime: "07:00:00",
+          detinationStation: "bekasi",
+          arrivalTime: "01:00:00",
+          price: 15000,
+          qty: 100
+        },
+        {
+          name: "JWT Express",
+          typeTrainId: 1,
+          dateStart: "11/03/2020",
+          station: "Manggarai",
+          startTime: "07:00:00",
+          detinationStation: "bogor",
+          arrivalTime: "01:00:00",
+          price: 15000,
+          qty: 100
+        }
+      ],
+      {}
+    );
+  },
+
+  down: (queryInterface, Sequelize) => {
+    /*
+      Add reverting commands here.
+      Return a promise to correctly handle asynchronicity.
+
+      Example:
+      return queryInterface.bulkDelete('People', null, {});
+    */
+    return queryInterface.bulkDelete("trains", null, {});
+  }
+};
