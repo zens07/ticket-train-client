@@ -77,7 +77,7 @@ exports.show = async (req, res) => {
 
 exports.insert = async (req, res) => {
   try {
-    const { trainId, qty, attacment } = req.body;
+    const { trainId, qty } = req.body;
     // let findTrain = {};
     const findTrain = await Train.findOne({
       where: { id: trainId }
@@ -88,8 +88,7 @@ exports.insert = async (req, res) => {
       price: findTrain.price,
       qty,
       totalPrice: findTrain.price * qty,
-      status: "pending",
-      attacment
+      status: "pending"
     });
     if (createOrder) {
       const findOrder = await OrderTicket.findOne({
@@ -111,6 +110,24 @@ exports.insert = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.edit = async (req, res) => {
+  try {
+    const { attacment } = req.body;
+    await OrderTicket.update(
+      { attacment },
+      { where: { id: req.params.id, userId: req.user.userId } }
+    );
+    const data = await toDisplay(req.params.id);
+    res.status(200).send({
+      message: "Success Editing",
+      status: 200,
+      data
+    });
+  } catch (error) {}
+};
+
+exports.upload = (req, res) => {};
 
 //displaying data
 const toDisplay = orderId => {

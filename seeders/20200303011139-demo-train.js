@@ -19,7 +19,7 @@ module.exports = {
         {
           name: "kosambiexpress",
           typeTrainId: 2,
-          dateStart: "10/03/2020",
+          dateStart: "2020-03-11",
           station: "Juramangu",
           startTime: "07:00:00",
           detinationStation: "bekasi",
@@ -30,7 +30,7 @@ module.exports = {
         {
           name: "JWT Express",
           typeTrainId: 1,
-          dateStart: "11/03/2020",
+          dateStart: "2020-03-11",
           station: "Manggarai",
           startTime: "07:00:00",
           detinationStation: "bogor",
