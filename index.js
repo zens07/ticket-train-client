@@ -2,25 +2,15 @@
 const express = require("express");
 require("express-group-routes");
 
-// const multer = require("multer");
-// const upload = multer({ dest: "./images" });
-// console.log(req);
 const multer = require("multer");
-// var upload = multer({ dest: "images/" });
-// const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: "./images",
   filename: function(req, file, cb) {
+    console.log(file);
     cb(null, file.fieldname + "-" + Date.now() + file.originalname);
   }
 });
-// const storage = multer.diskStorage({
-//   destination: "./images",
-//   filename: function(req, file, cb) {
-//     cb(null, "IMAGE-" + Date.now() + file.originalname);
-//   }
-// });
 
 const upload = multer({
   storage: storage
@@ -36,6 +26,8 @@ const port = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use(express.static("images"));
+
 const { authenticated } = require("./middleware");
 //controllers
 const userController = require("./controllers/usersController");
@@ -47,10 +39,13 @@ app.group("/api/v1", router => {
   router.post("/upload", function(req, res) {
     upload(req, res, err => {
       if (err) throw err;
+      const data = {
+        orderId: req.body.orderId,
+        file: req.file.filename
+      };
       res.send({
-        message: "success"
+        data
       });
-      console.log(req);
     });
   });
 
@@ -76,16 +71,7 @@ app.group("/api/v1", router => {
   router.get("/index/user/order", authenticated, orderUserController.index);
   router.get("/show/user/order", authenticated, orderUserController.show);
   router.post("/insert/user/order", authenticated, orderUserController.insert);
-  router.patch("/edit/user/order", authenticated, orderUserController.edit);
-  // router.post("/upload", {
-  //   upload(req, res, (err) => {
-  //      console.log("Request ---", req.body);
-  //       console.log("Request file ---", req.file);//Here you get file.
-  //      /*Now do where ever you want to do*/
-  //      if(!err)
-  //         return res.send(200).end();
-  //   });
-  // });
+  router.patch("/edit/user/order/:id", authenticated, orderUserController.edit);
   //find train
   router.post("/findtrain/station", trainController.findStation);
   router.post("/insert/admin/train", authenticated, trainController.insert);

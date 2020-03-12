@@ -60,10 +60,12 @@ exports.register = async (req, res) => {
         address
       });
       if (data) {
+        const token = jwt.sign({ userId: data.id }, "my-token-key");
         res.status(200).send({
           message: "Register Successfully",
-          status: 200,
-          data
+          email: data.email,
+          status: data.status,
+          token
         });
       } else {
         res.status(400).send({

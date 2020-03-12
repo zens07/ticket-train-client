@@ -6,6 +6,16 @@ const Train = models.train;
 const Typetrain = models.typetrain;
 const OrderTicket = models.order;
 
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: "./images",
+  filename: function(req, file, cb) {
+    console.log(file);
+    cb(null, file.fieldname + "-" + Date.now() + file.originalname);
+  }
+});
+
 exports.index = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -113,18 +123,28 @@ exports.insert = async (req, res) => {
 
 exports.edit = async (req, res) => {
   try {
-    const { attacment } = req.body;
+    // upload(req, res, err => {
+    //   if (err) throw err;
+    //   const data = {
+    //     orderId: req.body.orderId,
+    //     filename: req.file.filename
+    //   };
+
     await OrderTicket.update(
-      { attacment },
-      { where: { id: req.params.id, userId: req.user.userId } }
+      { attacment: req.body.attacment },
+      { where: { id: req.params.id } }
     );
+
     const data = await toDisplay(req.params.id);
     res.status(200).send({
       message: "Success Editing",
       status: 200,
       data
     });
-  } catch (error) {}
+    // });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.upload = (req, res) => {};
