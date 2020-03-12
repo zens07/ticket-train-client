@@ -8,15 +8,27 @@ exports.findStation = async (req, res) => {
   try {
     console.log(req.body);
     const { station, detinationStation, dateStart } = req.body;
+    // const d = new Date(dateStart);
     if (station.length > 0 && detinationStation.length > 0) {
       const data = await Train.findAll({
         where: {
           // station: station,
           // detinationStation: detinationStation
+          // dateStart: d
+
           [Op.or]: [
             { station: station, detinationStation: detinationStation },
             { detinationStation: station, station: detinationStation },
-            { dateStart: dateStart }
+            { dateStart: new Date(dateStart) }
+            // { dateStart: { [Op.between]: [dateStart, dateStart] } }
+            // {
+            //   dateStart: {
+            //     [Op.between]: [
+            //       new Date(Date(dateStart)),
+            //       new Date(Date(dateStart))
+            //     ]
+            //   }
+            // }
           ]
         },
         include: [

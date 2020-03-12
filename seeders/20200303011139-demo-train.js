@@ -1,5 +1,8 @@
 "use strict";
 
+const today = new Date();
+const date =
+  today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -34,6 +37,39 @@ module.exports = {
           station: "Manggarai",
           startTime: "07:00:00",
           detinationStation: "bogor",
+          arrivalTime: "01:00:00",
+          price: 15000,
+          qty: 100
+        },
+        {
+          name: "JWT Express",
+          typeTrainId: 1,
+          dateStart: date,
+          station: "bogor",
+          startTime: "07:00:00",
+          detinationStation: "jakarta",
+          arrivalTime: "01:00:00",
+          price: 15000,
+          qty: 100
+        },
+        {
+          name: "JWT Express",
+          typeTrainId: 1,
+          dateStart: date,
+          station: "cirebon",
+          startTime: "07:00:00",
+          detinationStation: "jakarta",
+          arrivalTime: "01:00:00",
+          price: 15000,
+          qty: 100
+        },
+        {
+          name: "JWT Express",
+          typeTrainId: 1,
+          dateStart: date,
+          station: "jakarta",
+          startTime: "07:00:00",
+          detinationStation: "cirebon",
           arrivalTime: "01:00:00",
           price: 15000,
           qty: 100
